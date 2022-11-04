@@ -1,0 +1,43 @@
+language: java
+
+jdk:
+  - oraclejdk17
+  - oraclejdk19
+
+cache:
+  directories:
+    - $HOME/.m2
+
+addons:
+  apt:
+    packages: graphviz
+  homebrew:
+    packages: graphviz
+
+before_install:
+  - if [ ! -z "$GPG_SECRET_KEYS" ]; then echo $GPG_SECRET_KEYS | base64 --decode | $GPG_EXECUTABLE --import; fi
+  - if [ ! -z "$GPG_OWNERTRUST" ]; then echo $GPG_OWNERTRUST | base64 --decode | $GPG_EXECUTABLE --import-ownertrust; fi
+
+install:
+  - mvn --settings .travis/settings.xml install -Dmaven.javadoc.skip=true -Dgpg.skip -B -V
+
+after_success:
+  - bash <(curl -s https://codecov.io/bash)
+
+deploy:
+  -
+    provider: script
+    script: .travis/deploy.sh
+    cleanup: false
+    on:
+      repo: isfett/java-workflow
+      branch: main
+      jdk: oraclejdk17
+  -
+    provider: script
+    script: .travis/deploy.sh
+    cleanup: false
+    on:
+      repo: isfett/java-workflow
+      tags: true
+      jdk: oraclejdk17
