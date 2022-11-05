@@ -10,7 +10,6 @@ import com.isfett.workflow.WorkflowInterface;
 import com.isfett.workflow.dumper.DumperInterface;
 import com.isfett.workflow.dumper.GraphvizDumper;
 import com.isfett.workflow.dumper.PlantUmlDumper;
-import com.isfett.workflow.event.EnterEvent;
 import com.isfett.workflow.event.EventDispatcher;
 import com.isfett.workflow.event.EventListenerInterface;
 import com.isfett.workflow.event.GuardEvent;
